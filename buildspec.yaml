@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: latest
+    commands:
+      - npm install
+  pre_build:
+    commands:
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - REPOSITORY_URI 266003141336.dkr.ecr.eu-central-1.amazonaws.com/codebuild-test
+      - IMAGE_TAG=$(echo CODEBUILD_SOURCE_VERSION | cut -c 1-7)
+  build:
+    commands:
+      - docker build -t $REPOSITORY_URI:latest -f build/Dockerfile .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
