@@ -1,0 +1,9 @@
+[
+  {
+    "namespace": "CodeBuild",
+    "name": "WebApp",
+    "script": "src/main.js",
+    "exec_mode": "cluster",
+    "instances": 0
+  }
+]
