@@ -7,6 +7,7 @@ phases:
       - npm install
   pre_build:
     commands:
+      - aws --version
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - REPOSITORY_URI 266003141336.dkr.ecr.eu-central-1.amazonaws.com/codebuild-test
       - IMAGE_TAG=$(echo CODEBUILD_SOURCE_VERSION | cut -c 1-7)
